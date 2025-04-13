@@ -2,7 +2,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 const dbrequest = require("../helpers/dbRequest");
 //const createSummary= require("../helpers/createSummaryFile")
-const summarize = (resource) => {
+const summarize = (resource,userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       console.log(resource);
@@ -12,7 +12,7 @@ const summarize = (resource) => {
         as searchable tags for the topic of resource. Give response in the form of an object schema:
         {
         "title":Propose a suitable title for summary
-        "resourceLink": Link given by user,
+        "link": Link given by user,
          "summary": "Detailed Summary of the resource requested",
          "Tags": "Top 5 Searchable Keywords from the content in the form of an array"
         }`;
@@ -30,11 +30,12 @@ const summarize = (resource) => {
      // if(createSummaryResponse)
     //    {
       const query = {
-        userId: "102",
+        userId: userId,
         title:responseFinal.title,
         tags: responseFinal.Tags,
         summary: responseFinal.summary,
-        timestamp: new Date()
+        timestamp: new Date(),
+        link:responseFinal.link
       };
       
       let insertSummary = await dbrequest(

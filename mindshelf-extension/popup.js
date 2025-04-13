@@ -1,5 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+    const inputUser = document.getElementById("userId");
     const input = document.getElementById("linkInput");
     const saveBtn = document.getElementById("saveBtn");
 
@@ -13,12 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Send the link to your API
     saveBtn.addEventListener("click", async () => {
-        const link = input.value;
-        console.log("🔗 Would save to API:", link);
-        const res = await fetch("<api for summarize>", {
+        const resource = input.value;
+        const userId= inputUser.value
+        console.log("🔗 Would save to API:", resource);
+        const res = await fetch(`http://localhost:4000/api/summarize?userId=${userId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ link })
+            body: JSON.stringify({ resource })
         });
 
         if (res.ok) {

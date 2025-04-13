@@ -21,7 +21,7 @@ function MindfileBlock({ mindfile, onMindfileClick }) {
                     </div>
                 )}
                 <p className="date">
-                    {new Date(mindfile.date).toLocaleDateString()}
+                    {new Date(mindfile.timestamp).toLocaleDateString()}
                 </p>
             </div>
         </div>

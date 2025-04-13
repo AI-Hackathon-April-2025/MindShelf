@@ -28,7 +28,7 @@ function MindfileDetails({ mindfile, onClose }) {
                 <p
                     className="date"
                 >
-                    Created At: {new Date(mindfile.createdAt).toLocaleString()}
+                    Created At: {new Date(mindfile.timestamp).toLocaleString()}
                 </p>
                 {mindfile.tags && mindfile.tags.length > 0 && (
                     <div

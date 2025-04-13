@@ -1,9 +1,9 @@
 .searchBar {
     display: flex;
-    gap: 10px;
     margin-top: 20px;
-    align-items: center;
+    align-items: center; /* Align items vertically */
     justify-content: center;
+    width: 100%;
 }
 
 .searchBar input {
@@ -11,9 +11,10 @@
     border: 1px solid #D8C3A5;
     border-radius: 10px;
     background-color: #fff;
-    width: 500px;
+    /* flex-grow: 1; */
     font-size: 1rem;
     color: #2c2c2c;
+    margin-right: 10px;
 }
 
 .searchBar input:focus {
@@ -23,7 +24,8 @@
 }
 
 .searchBar button {
-    padding: 10px 16px;
+    margin-top: auto;
+    padding: 10px 14px;
     background-color: #E85A4F;
     color: white;
     font-size: 1rem;
@@ -33,6 +35,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%; 
+    white-space: nowrap;
 }
 
 .searchBar button:hover {
@@ -40,7 +44,6 @@
 }
 
 .searchBar button::before {
-    content: '\1F50D';
     margin-right: 6px;
     font-size: 1.2rem;
 }

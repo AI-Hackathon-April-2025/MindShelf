@@ -18,19 +18,20 @@ function DashboardPage() {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
 
-    useEffect(() => {
-        const fetchLatest = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const data = await api.fetchLatestMindfiles();
-                setMindfiles(data);
-            } catch (err) {
-                setError(err.message || "Failed to fetch lastest minfiles.");
-            } finally {
-                setLoading(false);
-            }
+    const fetchLatest = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await api.fetchLatestMindfiles();
+            setMindfiles(data);
+        } catch (err) {
+            setError(err.message || "Failed to fetch lastest minfiles.");
+        } finally {
+            setLoading(false);
         }
+    }
+
+    useEffect(() => {
         fetchLatest();
     }, []);
 
@@ -85,6 +86,7 @@ function DashboardPage() {
         setIsCreateDialogOpen(false);
     };
 
+    console.log(typeof mindfiles)
     const selectedMindfile = mindfiles.find(mf => mf._id === selectedMindfileId);
 
     return (

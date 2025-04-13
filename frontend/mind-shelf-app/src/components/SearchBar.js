@@ -6,11 +6,15 @@ function SearchBar({ onSearch }) {
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
-        if (onSearch) {
-            onSearch(event.target.value);
-        }
     };
 
+    const handleSearchClick = () => {
+        if (onSearch) {
+            onSearch(searchTerm);
+            setSearchTerm('')
+        }
+    }
+ 
     return (
         <div className='searchBar'>
             <input
@@ -20,9 +24,9 @@ function SearchBar({ onSearch }) {
                 onChange={handleChange}
                 className='searchBar'
             />
-            <button>
-                Search
-            </button>
+            <button onClick={handleSearchClick} className = "searchButton">
+                    🔍
+            </button>       
         </div>
     );
 }
