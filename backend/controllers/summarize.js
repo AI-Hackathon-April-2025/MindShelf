@@ -4,7 +4,6 @@ const summarize = require('../logic/summarize.js')
 
 const summarizeResponse = async (req, res) => {
     try {
-        console.log(req)
         let resource = req.body.resource
         let summary = await summarize(resource)
         //.catch(error => {

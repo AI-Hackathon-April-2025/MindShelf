@@ -1,30 +1,59 @@
-const GoogleGenAI = require("@google/genai")
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
-
+const dbrequest = require("../helpers/dbRequest");
+//const createSummary= require("../helpers/createSummaryFile")
 const summarize = (resource) => {
-    return new Promise(async (resolve, reject) => {
-        try {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log(resource);
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const promptText = `Use this resource link ${resource} and create a summary of it with keywords 
+        as searchable tags for the topic of resource. Give response in the form of an object schema:
+        {
+        "title":Propose a suitable title for summary
+        "resourceLink": Link given by user,
+         "summary": "Detailed Summary of the resource requested",
+         "Tags": "Top 5 Searchable Keywords from the content in the form of an array"
+        }`;
+      const result = await model.generateContent({
+        contents: [{ parts: [{ text: promptText }] }],
+      });
+      const responseAPI = result.response;
+      const response= responseAPI.text()
+      const parseResponse =  response.replace(/^```json\s*/, '').slice(0,-4)
+      const responseFinal = JSON.parse(parseResponse);
 
-            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    //  const summary = responseFinal.summary
+     // let createSummaryResponse =await  createSummary(summary)
+    //  console.log(createSummaryResponse)
+     // if(createSummaryResponse)
+    //    {
+      const query = {
+        userId: "102",
+        title:responseFinal.title,
+        tags: responseFinal.Tags,
+        summary: responseFinal.summary,
+        timestamp: new Date()
+      };
+      
+      let insertSummary = await dbrequest(
+        query,
+        "summaryDetails",
+        "insertOne"
+      ).catch((error) => reject(error));
 
-            async function main() {
-                const response = await ai.models.generateContent({
-                    model: "gemini-2.0-flash",
-                    contents: `use this resource link ${resource} and create a summary of it with keywords as searchable tags for the topic of resource. Give response in the from of an object schema. 
-                    response :
-                    {
-                    "summary":"Summary of the resource requested",
-                    "Tags":"Searchable Keywords from the content in the form of an array"
-                    }`
-                })
-                console.log(response.text);
-                resolve(response.text)
-            }
-        }
-        catch (err) {
-            reject(err)
-        }
-    })
-}
+      if (insertSummary.acknowledged == true) {
+        resolve(responseFinal);
+      } else {
+        reject("Summary not uploaded");
+      }
+    } 
+        
+    catch (err) {
+      reject(err);
+    }
+  });
+};
 
 module.exports = summarize;

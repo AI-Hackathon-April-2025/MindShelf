@@ -1,13 +1,13 @@
-const search = require('../logic/search.js')
+const getSummary = require('../logic/getSummary.js')
 const { failureResponse, successResponse } = require('../helpers/responseSchema')
 const statusCodes = require('../helpers/statusCodes.json')
 
 
-const searchResponse = async (req, res) => {      
+const getSummaryResponse = async (req, res) => {      
     try {
        let userId = req.query.userId
-      let prompt= req.body.prompt
-        let summary = await search(userId,prompt).catch(error => {
+      
+        let summary = await getSummary(userId).catch(error => {
             let failure = failureResponse(error, statusCodes.BAD_REQUEST.statusCode)
             res.status(failure.statusCode).send(failure.body)
         })
@@ -21,4 +21,4 @@ const searchResponse = async (req, res) => {
     }
 }
 
-module.exports = searchResponse
+module.exports = getSummaryResponse
