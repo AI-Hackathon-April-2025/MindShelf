@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashBoardPage';
 import './App.css';
 
-
 function App() {
-  const [user, setUser] = useState(localStorage.getItem("user"));
-  
-  const handleLogin = (userId) => {
-    setUser(userId);
-  };
-
   return (
-    <div className='appContainer'>
-      { user ? ( 
-        <>
-        <h1 className="mainTitle">MindSelf</h1>
-        <DashboardPage />
-        </>
-      ) : (
-        <LoginPage onLogin={handleLogin}/>
-      )}
+    <div className="appContainer">
+      <h1 className="mainTitle">MindShelf</h1>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/home" element={<DashboardPage />} />
+      </Routes>
     </div>
   );
 }

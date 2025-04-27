@@ -3,10 +3,11 @@ const { failureResponse, successResponse } = require('../helpers/responseSchema'
 const statusCodes = require('../helpers/statusCodes.json')
 
 
-const getSummaryResponse = async (req, res) => {      
+const getSummaryResponse = async (req, res) => {
     try {
-       let userId = req.query.userId
-      
+        let userId = req.query.userId
+        console.log("User : ", userId)
+
         let summary = await getSummary(userId).catch(error => {
             let failure = failureResponse(error, statusCodes.BAD_REQUEST.statusCode)
             res.status(failure.statusCode).send(failure.body)

@@ -14,7 +14,7 @@ function SearchBar({ onSearch }) {
             setSearchTerm('')
         }
     }
- 
+
     return (
         <div className='searchBar'>
             <input
@@ -22,11 +22,11 @@ function SearchBar({ onSearch }) {
                 placeholder="Search your mindfiles..."
                 value={searchTerm}
                 onChange={handleChange}
-                className='searchBar'
+                className='searchBar_input'
             />
-            <button onClick={handleSearchClick} className = "searchButton">
-                    🔍
-            </button>       
+            <button onClick={handleSearchClick} className="searchButton">
+                🔍
+            </button>
         </div>
     );
 }
