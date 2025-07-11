@@ -9,14 +9,19 @@ import EmptyState from '../components/EmptyState';
 import * as api from '../api';
 import './DashBoardPage.css';
 
-
 function DashboardPage() {
+    const navigate = useNavigate();
     const [mindfiles, setMindfiles] = useState([]);
     const [selectedMindfileId, setSelectedMindfileId] = useState(null);
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
 
     const fetchLatest = async () => {
         setLoading(true);
@@ -93,6 +98,9 @@ function DashboardPage() {
         <div className='dashboardContainer'>
             <button onClick={handleGoBackToLanding} className='backToLandingButton'>
                 &larr; Back
+            </button>
+            <button onClick={handleLogout} className="logoutButton">
+                Logout
             </button>
             <SearchBar onSearch={handleSearch} />
             {loading && <p>Loading latest mindfiles...</p>}
